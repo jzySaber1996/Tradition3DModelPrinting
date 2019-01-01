@@ -1,10 +1,11 @@
 public class Triangle {
     private Point3D pointA, pointB, pointC;
-    public Triangle(Point3D pointA, Point3D pointB, Point3D pointC) {
-        this.pointA = pointA;
-        this.pointB = pointB;
-        this.pointC = pointC;
-    }
+
+//    public Triangle(Point3D pointA, Point3D pointB, Point3D pointC) {
+//        this.pointA = pointA;
+//        this.pointB = pointB;
+//        this.pointC = pointC;
+//    }
 
     public void setPointA(Point3D pointA) {
         this.pointA = pointA;
