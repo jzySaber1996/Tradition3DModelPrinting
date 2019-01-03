@@ -1,5 +1,5 @@
 public class Triangle {
-    private Point3D pointA, pointB, pointC;
+    private PointTriangle pointA, pointB, pointC;
 
 //    public Triangle(Point3D pointA, Point3D pointB, Point3D pointC) {
 //        this.pointA = pointA;
@@ -7,27 +7,27 @@ public class Triangle {
 //        this.pointC = pointC;
 //    }
 
-    public void setPointA(Point3D pointA) {
+    public void setPointA(PointTriangle pointA) {
         this.pointA = pointA;
     }
 
-    public void setPointB(Point3D pointB) {
+    public void setPointB(PointTriangle pointB) {
         this.pointB = pointB;
     }
 
-    public void setPointC(Point3D pointC) {
+    public void setPointC(PointTriangle pointC) {
         this.pointC = pointC;
     }
 
-    public Point3D getPointA() {
+    public PointTriangle getPointA() {
         return pointA;
     }
 
-    public Point3D getPointB() {
+    public PointTriangle getPointB() {
         return pointB;
     }
 
-    public Point3D getPointC() {
+    public PointTriangle getPointC() {
         return pointC;
     }
 }

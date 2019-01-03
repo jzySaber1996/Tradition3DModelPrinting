@@ -94,11 +94,15 @@ public class MatchingCubeAlgorithm {
         return triangleList;
     }
 
-    private static Point3D getMiddle(Line line) {
-        Point3D point3D = new Point3D(
-                (line.getPointStart().getStartX() + line.getPointEnd().getStartX())/2,
-                (line.getPointStart().getStartY() + line.getPointEnd().getStartY())/2,
-                (line.getPointStart().getStartZ() + line.getPointEnd().getStartZ())/2);
-        return point3D;
+    private static PointTriangle getMiddle(Line line) {
+        PointTriangle pointTriangle = new PointTriangle(
+                (line.getPointStart().getStartX() + line.getPointEnd().getStartX())/2.0,
+                (line.getPointStart().getStartY() + line.getPointEnd().getStartY())/2.0,
+                (line.getPointStart().getStartZ() + line.getPointEnd().getStartZ())/2.0);
+//        Point3D point3D = new Point3D(
+//                (line.getPointStart().getStartX() + line.getPointEnd().getStartX())/2,
+//                (line.getPointStart().getStartY() + line.getPointEnd().getStartY())/2,
+//                (line.getPointStart().getStartZ() + line.getPointEnd().getStartZ())/2);
+        return pointTriangle;
     }
 }
