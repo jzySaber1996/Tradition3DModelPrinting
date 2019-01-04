@@ -37,6 +37,7 @@ public class MainCallFunction {
         }
         fw.flush();
         fw.close();
+        ProjectionShape.selectPoints(triangleStore);
 //        int k = 0;
     }
 }

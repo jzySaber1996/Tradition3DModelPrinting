@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MatchingCubeAlgorithm {
+class MatchingCubeAlgorithm {
     private static final double THRESHOLD = 0.5;
     private static HashMap<Point3D, ArrayList<Triangle>> triangleStore = new HashMap<>();
-    public static HashMap<Point3D, ArrayList<Triangle>> doMatchingCube(DataArray dataArray) {
+    static HashMap<Point3D, ArrayList<Triangle>> doMatchingCube(DataArray dataArray) {
         calculateMatrixVertex(dataArray);
         return triangleStore;
     }
