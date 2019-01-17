@@ -4,6 +4,7 @@ import java.util.HashMap;
 class MatchingCubeAlgorithm {
     private static final double THRESHOLD = 0.5;
     private static HashMap<Point3D, ArrayList<Triangle>> triangleStore = new HashMap<>();
+
     static HashMap<Point3D, ArrayList<Triangle>> doMatchingCube(DataArray dataArray) {
         calculateMatrixVertex(dataArray);
         return triangleStore;
@@ -15,9 +16,9 @@ class MatchingCubeAlgorithm {
         int xDim = dataArray.getxDim();
         int yDim = dataArray.getyDim();
         int zDim = dataArray.getzDim();
-        for (int i = 0; i < xDim - 1; i++)
-            for (int j = 0; j < yDim - 1; j++)
-                for (int k = 0; k < zDim - 1; k++) {
+        for (double i = 0; i < (double) xDim; i += 0.25)
+            for (double j = 0; j < (double) yDim; j += 0.25)
+                for (double k = 0; k < (double) zDim; k += 0.25) {
                     Point3D point3D = new Point3D(i, j, k);
                     triangleList = calculateEachCell(matrix, point3D);
                     triangleStore.put(point3D, triangleList);
@@ -27,15 +28,16 @@ class MatchingCubeAlgorithm {
     private static ArrayList<Triangle> calculateEachCell(double[][][] matrix, Point3D pointStart) {
         ArrayList<Triangle> triangleList = new ArrayList<>();
         int[] binaryNumber = new int[8];
-        int xStart = pointStart.getStartX();
-        int yStart = pointStart.getStartY();
-        int zStart = pointStart.getStartZ();
-        int[] yList = new int[] {yStart, yStart + 1, yStart + 1, yStart};
-        int[] zList = new int[] {zStart + 1, zStart + 1, zStart, zStart};
+        double xStart = pointStart.getStartX();
+        double yStart = pointStart.getStartY();
+        double zStart = pointStart.getStartZ();
+        double[] yList = new double[]{yStart, yStart + 0.25, yStart + 0.25, yStart};
+        double[] zList = new double[]{zStart + 0.25, zStart + 0.25, zStart, zStart};
         int numIndex = 0;
-        for (int i = xStart; i <= xStart + 1; i++) {
+        for (double i = xStart; i <= xStart + 0.25; i += 0.25) {
             for (int j = 0; j < yList.length; j++) {
-                if (matrix[i][yList[j]][zList[j]] >= THRESHOLD) binaryNumber[numIndex] = 1;
+                if (TrilinearInterpAlgorithm.interpolation(matrix, i, yList[j], zList[j]) >= THRESHOLD)
+                    binaryNumber[numIndex] = 1;
                 else binaryNumber[numIndex] = 0;
                 numIndex++;
             }
@@ -44,17 +46,17 @@ class MatchingCubeAlgorithm {
         for (int i = 0; i < 8; i++) {
             matchNumber += Math.pow(2, i) * binaryNumber[i];
         }
-        Point3D[] point3DList = new Point3D[] {
-                new Point3D(xStart, yStart, zStart + 1),
-                new Point3D(xStart, yStart + 1, zStart + 1),
-                new Point3D(xStart, yStart + 1, zStart),
+        Point3D[] point3DList = new Point3D[]{
+                new Point3D(xStart, yStart, zStart + 0.25),
+                new Point3D(xStart, yStart + 0.25, zStart + 0.25),
+                new Point3D(xStart, yStart + 0.25, zStart),
                 new Point3D(xStart, yStart, zStart),
-                new Point3D(xStart + 1, yStart, zStart + 1),
-                new Point3D(xStart + 1, yStart + 1, zStart + 1),
-                new Point3D(xStart + 1, yStart + 1, zStart),
-                new Point3D(xStart + 1, yStart, zStart)
+                new Point3D(xStart + 0.25, yStart, zStart + 0.25),
+                new Point3D(xStart + 0.25, yStart + 0.25, zStart + 0.25),
+                new Point3D(xStart + 0.25, yStart + 0.25, zStart),
+                new Point3D(xStart + 0.25, yStart, zStart)
         };
-        Line[] lineList = new Line[] {
+        Line[] lineList = new Line[]{
                 new Line(point3DList[0], point3DList[1]),
                 new Line(point3DList[1], point3DList[2]),
                 new Line(point3DList[2], point3DList[3]),
@@ -96,9 +98,9 @@ class MatchingCubeAlgorithm {
 
     private static PointTriangle getMiddle(Line line) {
         PointTriangle pointTriangle = new PointTriangle(
-                (line.getPointStart().getStartX() + line.getPointEnd().getStartX())/2.0,
-                (line.getPointStart().getStartY() + line.getPointEnd().getStartY())/2.0,
-                (line.getPointStart().getStartZ() + line.getPointEnd().getStartZ())/2.0);
+                (line.getPointStart().getStartX() + line.getPointEnd().getStartX()) / 2.0,
+                (line.getPointStart().getStartY() + line.getPointEnd().getStartY()) / 2.0,
+                (line.getPointStart().getStartZ() + line.getPointEnd().getStartZ()) / 2.0);
 //        Point3D point3D = new Point3D(
 //                (line.getPointStart().getStartX() + line.getPointEnd().getStartX())/2,
 //                (line.getPointStart().getStartY() + line.getPointEnd().getStartY())/2,

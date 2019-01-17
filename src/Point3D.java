@@ -1,33 +1,33 @@
 public class Point3D {
-    private int startX, startY, startZ;
+    private double startX, startY, startZ;
 
-    public Point3D(int startX, int startY, int startZ) {
+    public Point3D(double startX, double startY, double startZ) {
         this.startX = startX;
         this.startY = startY;
         this.startZ = startZ;
     }
 
-    public int getStartX() {
+    public double getStartX() {
         return startX;
     }
 
-    public int getStartY() {
+    public double getStartY() {
         return startY;
     }
 
-    public int getStartZ() {
+    public double getStartZ() {
         return startZ;
     }
 
-    public void setStartX(int startX) {
+    public void setStartX(double startX) {
         this.startX = startX;
     }
 
-    public void setStartY(int startY) {
+    public void setStartY(double startY) {
         this.startY = startY;
     }
 
-    public void setStartZ(int startZ) {
+    public void setStartZ(double startZ) {
         this.startZ = startZ;
     }
 }

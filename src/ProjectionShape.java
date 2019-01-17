@@ -11,10 +11,12 @@ class ProjectionShape {
     private static ArrayList<Triangle> triangleSatisfied;
     private static ArrayList<PointTriangle> pointPrintStore;
 
-    static void selectPoints(HashMap<Point3D, ArrayList<Triangle>> triangleStore) {
+    static void selectPoints(HashMap<Point3D, ArrayList<Triangle>> triangleStore, int zDim) {
         thisTriangleStore = triangleStore;
-        getSingleLayerPoint(0.5);
-        getProjectionPoint(0.5);
+        for (double layerHeight = 0.0; layerHeight < (double) zDim; layerHeight += 0.1) {
+            getSingleLayerPoint(layerHeight);
+            getProjectionPoint(layerHeight);
+        }
     }
 
     private static void getSingleLayerPoint(double layerHeight) {
@@ -140,10 +142,11 @@ class ProjectionShape {
             }
             FileWriter fw = new FileWriter(file, true);
             for (PointTriangle pointPrint : pointPrintStore) {
-                fw.write(String.valueOf(pointPrint.getX()) + " " +
-                        String.valueOf(pointPrint.getY()) + " " +
-                        String.valueOf(pointPrint.getZ()) + "\n");
+                fw.write(String.valueOf(2 * pointPrint.getX()) + " " +
+                        String.valueOf(2 * pointPrint.getY()) + " " +
+                        String.valueOf(2 * pointPrint.getZ()) + "\n");
             }
+            fw.write("-1\n");
             fw.flush();
             fw.close();
         } catch (IOException e) {

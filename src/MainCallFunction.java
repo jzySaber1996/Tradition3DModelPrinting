@@ -10,6 +10,7 @@ public class MainCallFunction {
     public static void main(String[] args) throws IOException {
         DataArray dataArray = ReadFileFromMat.readFile();
         HashMap<Point3D, ArrayList<Triangle>> triangleStore = MatchingCubeAlgorithm.doMatchingCube(dataArray);
+        int zDim = dataArray.getzDim();
         Iterator iterator = triangleStore.entrySet().iterator();
         File file = new File("store/pointlist.txt");
         if (!file.exists())
@@ -22,43 +23,43 @@ public class MainCallFunction {
             ArrayList<Triangle> triangles = (ArrayList<Triangle>) entry.getValue();
 
             if (triangles.size() > 0) {
-                for (Triangle triangle: triangles) {
-                    double[] zList = new double[]
-                            {
-                                    triangle.getPointA().getZ(),
-                                    triangle.getPointB().getZ(),
-                                    triangle.getPointC().getZ()
-                            };
-                    boolean overLayer = false;
-                    boolean belowLayer = false;
-                    for (double coordinateZ: zList) {
-                        if (Math.abs(coordinateZ - 0.5) <= 1e-6 ||
-                                (coordinateZ - 0.5) > 1e-6) {
-                            overLayer = true;
-                        }
-                        if (Math.abs(coordinateZ - 0.5) <= 1e-6 ||
-                                (0.5 - coordinateZ) > 1e-6) {
-                            belowLayer = true;
-                        }
+                for (Triangle triangle : triangles) {
+//                    double[] zList = new double[]
+//                            {
+//                                    triangle.getPointA().getZ(),
+//                                    triangle.getPointB().getZ(),
+//                                    triangle.getPointC().getZ()
+//                            };
+//                    boolean overLayer = false;
+//                    boolean belowLayer = false;
+//                    for (double coordinateZ: zList) {
+//                        if (Math.abs(coordinateZ - 0.5) <= 1e-6 ||
+//                                (coordinateZ - 0.5) > 1e-6) {
+//                            overLayer = true;
+//                        }
+//                        if (Math.abs(coordinateZ - 0.5) <= 1e-6 ||
+//                                (0.5 - coordinateZ) > 1e-6) {
+//                            belowLayer = true;
+//                        }
+//                    }
+//                    if (overLayer && belowLayer) {
+                    ArrayList<PointTriangle> pointTriangles = new ArrayList<>();
+                    pointTriangles.add(triangle.getPointA());
+                    pointTriangles.add(triangle.getPointB());
+                    pointTriangles.add(triangle.getPointC());
+                    for (PointTriangle pointEach : pointTriangles) {
+                        fw.write(String.valueOf(2 * pointEach.getX()) + " " +
+                                String.valueOf(2 * pointEach.getY()) + " " +
+                                String.valueOf(2 * pointEach.getZ()) + "\n");
                     }
-                    if (overLayer && belowLayer) {
-                        ArrayList<PointTriangle> pointTriangles = new ArrayList<>();
-                        pointTriangles.add(triangle.getPointA());
-                        pointTriangles.add(triangle.getPointB());
-                        pointTriangles.add(triangle.getPointC());
-                        for (PointTriangle pointEach: pointTriangles) {
-                            fw.write(String.valueOf(pointEach.getX()) + " " +
-                                    String.valueOf(pointEach.getY()) + " " +
-                                    String.valueOf(pointEach.getZ()) + "\n");
-                        }
-                        fw.write("-1\n");
-                    }
+                    fw.write("-1\n");
+//                    }
                 }
             }
         }
         fw.flush();
         fw.close();
-        ProjectionShape.selectPoints(triangleStore);
+        ProjectionShape.selectPoints(triangleStore, zDim);
 //        int k = 0;
     }
 }
