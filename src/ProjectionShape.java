@@ -13,7 +13,7 @@ class ProjectionShape {
 
     static void selectPoints(HashMap<Point3D, ArrayList<Triangle>> triangleStore, int zDim) {
         thisTriangleStore = triangleStore;
-        for (double layerHeight = 0.0; layerHeight < (double) zDim; layerHeight += 0.1) {
+        for (double layerHeight = 0.0; layerHeight < (double) zDim; layerHeight += 0.2) {
             getSingleLayerPoint(layerHeight);
             getProjectionPoint(layerHeight);
         }
